@@ -24,5 +24,5 @@ export const stellar = {
   network: env.STELLAR_NETWORK,
   server: new Horizon.Server(cfg.horizonUrl),
   usdcAssetCode: env.USDC_ASSET_CODE,
-  usdcIssuer: env.USDC_ASSET_ISSUER_TESTNET,
+  usdcIssuer: env.STELLAR_NETWORK === 'public' ? env.USDC_ASSET_ISSUER_PUBLIC : env.USDC_ASSET_ISSUER_TESTNET,
 } as const;

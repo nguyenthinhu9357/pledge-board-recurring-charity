@@ -35,8 +35,17 @@ export function buildSep7PayUri(params: {
   assetIssuer: string;
   memo: string;
   memoType?: string;
+  networkPassphrase?: string;
 }): string {
-  const { destination, amount, assetCode, assetIssuer, memo, memoType = 'text' } = params;
+  const {
+    destination,
+    amount,
+    assetCode,
+    assetIssuer,
+    memo,
+    memoType = 'text',
+    networkPassphrase = 'Test SDF Network ; September 2015',
+  } = params;
   const base = 'web+stellar:pay';
   const q = new URLSearchParams({
     destination,
@@ -45,7 +54,7 @@ export function buildSep7PayUri(params: {
     asset_issuer: assetIssuer,
     memo,
     memo_type: memoType,
-    network_passphrase: 'Test SDF Network ; September 2015',
+    network_passphrase: networkPassphrase,
   });
   return `${base}?${q.toString()}`;
 }

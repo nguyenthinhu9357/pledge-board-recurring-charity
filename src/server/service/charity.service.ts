@@ -2,7 +2,7 @@ import { desc, eq } from 'drizzle-orm';
 import { db } from '@/server/db/client';
 import { charities, type NewCharity } from '@/server/db/schema';
 import { AppError } from '@/server/lib/http';
-import { demoCharities, demoId, demoMode } from '@/server/demo-store';
+import { demoCharities, demoMode, demoUuid } from '@/server/demo-store';
 
 export async function listCharities() {
   if (demoMode()) return demoCharities;
@@ -23,7 +23,7 @@ export async function getCharity(id: string) {
 export async function createCharity(data: NewCharity) {
   if (demoMode()) {
     const charity = {
-      id: demoId('charity'),
+      id: demoUuid(),
       name: data.name,
       description: data.description ?? '',
       stellarAddress: data.stellarAddress,

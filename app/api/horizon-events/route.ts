@@ -1,9 +1,18 @@
 import { desc, eq } from 'drizzle-orm';
 import type { NextRequest } from 'next/server';
+import { z } from 'zod';
 import { stellar } from '@/server/config/stellar';
 import { db } from '@/server/db/client';
 import { horizonEvents } from '@/server/db/schema';
 import { demoEvents, demoId, demoMode } from '@/server/demo-store';
+
+const eventSchema = z.object({
+  charityId: z.string().uuid(),
+  pledgeId: z.string().uuid().nullable().optional(),
+  eventType: z.string().min(1).max(80),
+  amount: z.string().regex(/^\d+(\.\d{1,7})?$/).default('0'),
+  txHash: z.string().max(128).default(''),
+});
 
 // GET /api/horizon-events?charityId=xxx — returns recent stored events
 export async function GET(req: NextRequest) {
@@ -96,9 +105,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const data = eventSchema.parse(await req.json());
     if (demoMode()) {
-      const body = await req.json();
-      const event = { ...body, id: demoId('event'), createdAt: new Date() };
+      const event = { ...data, pledgeId: data.pledgeId ?? null, id: demoId('event'), createdAt: new Date() };
       demoEvents.unshift(event);
       return Response.json({ ok: true, data: event }, { status: 201 });
     }
@@ -108,8 +117,7 @@ export async function POST(req: NextRequest) {
         { status: 409 },
       );
     }
-    const body = await req.json();
-    const rows = await db.insert(horizonEvents).values(body).returning();
+    const rows = await db.insert(horizonEvents).values(data).returning();
     return Response.json({ ok: true, data: rows[0] }, { status: 201 });
   } catch (err) {
     return Response.json({ ok: false, error: String(err) }, { status: 400 });

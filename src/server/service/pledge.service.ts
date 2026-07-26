@@ -4,7 +4,7 @@ import { db } from '@/server/db/client';
 import { charities, fulfillments, type NewPledge, pledges } from '@/server/db/schema';
 import { AppError } from '@/server/lib/http';
 import { buildSep7PayUri, createMuxedAddress } from '@/server/lib/muxed';
-import { demoCharities, demoId, demoMode, demoPledges } from '@/server/demo-store';
+import { demoCharities, demoMode, demoPledges, demoUuid } from '@/server/demo-store';
 
 export async function listPledges(charityId?: string) {
   if (demoMode()) {
@@ -33,8 +33,11 @@ export async function getPledge(id: string) {
 
 export async function createPledge(data: NewPledge) {
   if (demoMode()) {
+    if (!demoCharities.some((charity) => charity.id === data.charityId)) {
+      throw new AppError('NOT_FOUND', 'Charity not found', 404);
+    }
     const pledge = {
-      id: demoId('pledge'),
+      id: demoUuid(),
       donorName: data.donorName,
       charityId: data.charityId,
       monthlyAmountUsdc: data.monthlyAmountUsdc,
@@ -106,6 +109,7 @@ export async function getPledgeWithSep7(id: string) {
       assetIssuer: stellar.usdcIssuer,
       memo: `PLEDGE:${pledge.id.slice(0, 8)}`,
       memoType: 'text',
+      networkPassphrase: stellar.passphrase,
     });
     return { pledge, charity, muxedAddress, sep7Uri };
   }
@@ -131,6 +135,7 @@ export async function getPledgeWithSep7(id: string) {
     assetIssuer: stellar.usdcIssuer,
     memo: `PLEDGE:${pledge.id.slice(0, 8)}`,
     memoType: 'text',
+    networkPassphrase: stellar.passphrase,
   });
 
   return { pledge, charity, muxedAddress, sep7Uri };

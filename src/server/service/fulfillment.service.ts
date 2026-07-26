@@ -2,7 +2,7 @@ import { desc, eq } from 'drizzle-orm';
 import { db } from '@/server/db/client';
 import { fulfillments, type NewFulfillment, pledges } from '@/server/db/schema';
 import { AppError } from '@/server/lib/http';
-import { demoFulfillments, demoId, demoMode, demoPledges, demoTxHash } from '@/server/demo-store';
+import { demoFulfillments, demoMode, demoPledges, demoTxHash, demoUuid } from '@/server/demo-store';
 
 export async function listFulfillments(pledgeId?: string) {
   if (demoMode()) return pledgeId ? demoFulfillments.filter((item) => item.pledgeId === pledgeId) : demoFulfillments;
@@ -17,11 +17,15 @@ export async function listFulfillments(pledgeId?: string) {
 }
 
 export async function recordFulfillment(data: NewFulfillment) {
+  if (!/^\d+(\.\d{1,7})?$/.test(data.amountUsdc) || Number.parseFloat(data.amountUsdc) <= 0) {
+    throw new AppError('INVALID_INPUT', 'Fulfillment amount must be greater than zero', 400);
+  }
   if (demoMode()) {
     const pledge = demoPledges.find((item) => item.id === data.pledgeId);
     if (!pledge) throw new AppError('NOT_FOUND', 'Pledge not found', 404);
+    if (pledge.status !== 'active') throw new AppError('CONFLICT', 'Only active pledges can be fulfilled', 409);
     const fulfillment = {
-      id: demoId('fulfillment'),
+      id: demoUuid(),
       pledgeId: data.pledgeId,
       amountUsdc: data.amountUsdc,
       txHash: data.txHash || demoTxHash(),

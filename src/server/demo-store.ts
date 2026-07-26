@@ -42,7 +42,7 @@ export type DemoEvent = {
   createdAt: Date;
 };
 
-const charityAddress = 'GCKFBEIYV2U22IO2BJ4KVJOIP7XPWQGQFKKWXR6ZSDBFNPKV6IBFZNR';
+const charityAddress = 'GDUJC233ZSHRW453LC3BBROX73BZAYFIFP6XFNAS6VGXCYDVIXQ6BIR2';
 const charityId = '55555555-5555-4555-8555-555555555555';
 
 export const demoCharities: DemoCharity[] = [
@@ -84,6 +84,10 @@ export function demoMode() {
 
 export function demoId(prefix: string) {
   return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
+}
+
+export function demoUuid() {
+  return crypto.randomUUID();
 }
 
 export function demoTxHash() {
