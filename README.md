@@ -54,3 +54,17 @@ Use disposable testnet accounts and local environment variables. Follow the scri
 ## Mainnet gate
 
 Mainnet requires donor-signed payments, charity verification, exact Horizon proof, idempotent recurring schedules, and independently authenticated event ingestion.
+
+## Soroban MVP artifact
+
+The minimal pledge registry is in [`contracts/commitment/`](contracts/commitment/).
+Run `cargo test --manifest-path contracts/commitment/Cargo.toml`. The deployment
+manifest remains `not-deployed` until an external signer completes upload,
+deploy and initialize.
+
+## Soroban XLM surface
+
+The minimal contract in `contracts/pledge-board/` implements
+`OPEN -> FUNDED -> PAID` plus deadline refunds and cancellation with native XLM
+SAC. Run `cargo test --manifest-path contracts/pledge-board/Cargo.toml`. The
+unsigned XDR workflow is documented in [`docs/MAD_OPS.md`](docs/MAD_OPS.md).

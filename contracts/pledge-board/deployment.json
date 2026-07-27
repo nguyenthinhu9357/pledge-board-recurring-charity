@@ -1,0 +1,15 @@
+{
+    "projectId": "038",
+    "contractName": "pledge-commitment-contract",
+    "sdkVersion": "27.0.2",
+    "wasmPath": "contracts/commitment/target/wasm32v1-none/release/pledge_commitment_contract.wasm",
+    "wasmSha256": "c6b3013c4f5e24897df7442059ee3477371e760b764bb60f771a80fa8213dcfd",
+    "status": "local-tested",
+    "testnet": {
+        "status": "not-deployed",
+        "contractId": null,
+        "uploadTxHash": null,
+        "deploymentTxHash": null,
+        "initializeTxHash": null
+    }
+}
