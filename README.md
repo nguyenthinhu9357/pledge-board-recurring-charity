@@ -10,6 +10,19 @@ Public repository: https://github.com/nguyenthinhu9357/pledge-board-recurring-ch
 
 The hosted preview uses a safe in-memory demo store, so it does not require PostgreSQL, a funded wallet, or private keys. Demo writes are process-local and labelled as simulated. The real Stellar surface remains in the codebase as the next external-wallet step.
 
+## Mainnet Soroban proof
+
+The pledge-board contract is deployed and initialized on Stellar Public Mainnet:
+
+- Contract: `CAMFL3HZIVSFYZH3HEBV6NLPQNK4LNQVWT6PUYXWE3JEL7YT4QEVWHGT`
+- Asset: native XLM SAC
+- Verified flow: `initialize -> create_pledge -> fund`
+- `create_pledge`: [10132ab480bfea0c88ce2383b0576883490bc0510d822d7bf844fc6a49a4a59b](https://stellar.expert/explorer/public/tx/10132ab480bfea0c88ce2383b0576883490bc0510d822d7bf844fc6a49a4a59b)
+- `fund`: [ec0ab47a9bc969f46ebd840df02132b523e3c9c8ed4d37eb6ba5eed2f0aa869e](https://stellar.expert/explorer/public/tx/ec0ab47a9bc969f46ebd840df02132b523e3c9c8ed4d37eb6ba5eed2f0aa869e)
+
+The verified pledge is funded with 0.1 XLM. `release` requires the charity
+wallet signature; `refund` becomes available after the due ledger.
+
 ## Screenshots
 
 ![Janji landing page](screen-shot/01-landing.jpg)
@@ -43,7 +56,9 @@ npm run screenshots
 
 ## Readiness status
 
-This repository is in hackathon readiness hardening. Demo event ingestion is restricted to demo mode. No mainnet deployment or payment proof is claimed.
+The public app remains a hackathon demo with simulated in-memory writes. The
+Soroban pledge flow is separately verified on Mainnet; full charity release
+still uses the external signer boundary described below.
 
 See [`docs/MAINNET_READINESS.md`](docs/MAINNET_READINESS.md).
 

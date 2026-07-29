@@ -2,14 +2,14 @@
 
 Concept: recurring charity pledges with transparent payment and recipient reconciliation.
 
-Current evidence: the project contains recurring/charity concepts and local-tested Soroban XLM artifacts under `contracts/pledge-board/` and `contracts/commitment/`, but no verified Testnet/Mainnet deployment or chain-backed pledge transition evidence.
+Current evidence: the pledge-board Soroban contract is deployed and initialized on Stellar Public Mainnet. A real `create_pledge` and `fund` flow has been verified with native XLM SAC, including the `pledge_funded` event.
 
-Required gates: choose the contract or payment model, require donor signatures, verify each payment on Horizon, make recurring jobs idempotent, add reconciliation and an incident runbook.
+Required gates for the full recurring-charity product remain: use external signing, verify each incoming/outgoing destination and amount, make retries idempotent, and collect a charity signature for `release` or wait for the due ledger for `refund`.
 
-Status: **not mainnet-ready**. Demo seed execution is blocked on public network unless `DEMO_MODE=true`.
+Status: **functional Mainnet pledge flow verified; the public app remains a hackathon demo and does not custody or sign user funds**.
 
 ## Contract work in this revision
 
-`contracts/pledge-board/` adds a local-tested native-XLM SAC contract and an
-unsigned-XDR helper. Testnet and Mainnet deployment fields remain empty because
-this revision does not sign or broadcast.
+`contracts/pledge-board/` contains the native-XLM SAC contract and unsigned-XDR
+helper. Mainnet deployment and functional transaction evidence are recorded in
+`contracts/pledge-board/deployment.json`.
