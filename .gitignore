@@ -44,4 +44,5 @@ next-env.d.ts
 # Soroban artifacts and local unsigned operations
 .mad-ops/
 contracts/**/target/
+contracts/pledge-board/optimized-build/
 contracts/**/Cargo.lock
