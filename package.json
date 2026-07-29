@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start -p ${PORT:-3001}",
     "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
     "test": "vitest run",
