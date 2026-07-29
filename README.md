@@ -23,6 +23,16 @@ The pledge-board contract is deployed and initialized on Stellar Public Mainnet:
 The verified pledge is funded with 0.1 XLM. `release` requires the charity
 wallet signature; `refund` becomes available after the due ledger.
 
+## Production documentation
+
+- [User guide](docs/USER_GUIDE.md)
+- [Contract API](docs/CONTRACT_API.md)
+- [Pledge lifecycle](docs/PLEDGE_LIFECYCLE.md)
+- [Charity policy](docs/CHARITY_POLICY.md)
+- [Mainnet operations](docs/MAINNET_OPERATIONS.md)
+- [Refund runbook](docs/REFUND_RUNBOOK.md)
+- [Transaction verification](docs/TRANSACTION_VERIFICATION.md)
+
 ## Screenshots
 
 ![Janji landing page](screen-shot/01-landing.jpg)
